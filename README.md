@@ -12,14 +12,14 @@ The following are the tasks carried out in the course of the project:
 A command interpreter is used to manipulate data without a visual ineterface.
 Objects can be created, retreived, updated or deleted from the command line.
 
-##USAGE
-###To get started, execute the console.py file
+## USAGE
+### To get started, execute the console.py file
 ```
 $ ./console.py
 (hbnb) 
 ```
 
-###To view all available commands
+### To view all available commands
 ```
 $ ./console.py
 (hbnb) help
@@ -31,7 +31,7 @@ EOF  help  quit create show destroy all update
 (hbnb) 
 ```
 
-###To check out what each command does
+### To check out what each command does
 ```
 $ ./console.py
 (hbnb) help quit
@@ -42,4 +42,5 @@ Quit command to exit the program
 
 ## CONTRIBUTORS
 [Fashina Blessing Oluwabunmi](https://https://github.com/BunmiFash)
+
 [Daniel Komolafe](https://github.com/Daniel-418)
