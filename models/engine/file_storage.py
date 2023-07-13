@@ -2,6 +2,7 @@
 """ FileStorage Module """
 import json
 import os
+from models.base_model import BaseModel
 
 
 class FileStorage:
@@ -24,15 +25,22 @@ class FileStorage:
         using its class name and id as a key
         """
         self.__objects["{}.{}".format(type(obj).__name__, obj.id)] = (
-               obj.to_dict()
+               obj
         )
 
     def save(self):
         """
         Serializes __objects dictionary to a json file
         """
+        """
+        - created a new dictionary to store the objects
+        - converted each value to dict format to enable serialization
+        """
+        obj = {}
+        for key, value in self.__objects.items():
+            obj[key] = value.to_dict()
         with open(self.__file_path, 'w', encoding='utf-8') as json_file:
-            json.dump(self.__objects, json_file)
+            json.dump(obj, json_file)
 
     def reload(self):
         """
@@ -40,4 +48,6 @@ class FileStorage:
         """
         if os.path.exists(self.__file_path):
             with open(self.__file_path, 'r', encoding='utf-8') as json_file:
-                self.__objects = json.load(json_file)
+                obj = json.load(json_file)
+            for key, val in obj.items():
+                self.__objects[key] = eval(val["__class__"])(**val)
