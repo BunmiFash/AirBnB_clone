@@ -4,7 +4,7 @@ Base Model module
 """
 import uuid
 from datetime import datetime
-from models import storage
+import models
 
 
 class BaseModel():
@@ -34,13 +34,13 @@ class BaseModel():
             self.id = str(uuid.uuid4())
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
-            storage.new(self)
+            models.storage.new(self)
 
     def __str__(self):
         """
         Prints string representation of an object.
         """
-        return ("[{}] [{}] {}".format(
+        return ("[{}] ({}) {}".format(
             type(self).__name__, self.id, self.__dict__
             ))
 
@@ -49,7 +49,7 @@ class BaseModel():
         Saves this instance to storage(a json file) and
         updates the updated_at attribute
         """
-        storage.save()
+        models.storage.save()
         self.updated_at = datetime.now()
 
     def to_dict(self):
