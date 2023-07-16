@@ -172,14 +172,16 @@ class HBNBCommand(cmd.Cmd):
         if not arguments:
             for val in objects_dict.values():
                 all.append(str(val))
-            print(all)
+            if len(all) >= 1:
+                print(all)
         else:
             if arguments[0] not in self.__classes:
                 print("** class doesn't exist **")
             for val in storage.all().values():
                 if arguments[0] == val.to_dict()["__class__"]:
                     all.append(str(val))
-        print(all)
+            if len(all) >= 1:
+                print(all)
 
     def help_all(line):
         """
