@@ -150,10 +150,12 @@ class HBNBCommand(cmd.Cmd):
             elif len(arguments) == 3:
                 print("** value missing **")
             else:
-                valType = type(arguments[3])
+                attr_name = arguments[2]
+                val_type = type(arguments[3])
+                attr_value = val_type(arguments[3])
                 obj_dict = objects_dict[search_key].__dict__
                 value = arguments[3].strip('"')
-                obj_dict[arguments[2]] = valType(value)
+                obj_dict[attr_name] = attr_value
                 storage.save()
 
     def help_update(line):
@@ -201,22 +203,12 @@ class HBNBCommand(cmd.Cmd):
         args = line.split(".") if line else []
         objects_dict = storage.all()
         cls = args[0]
-        comd = args[1]
+        if len(args) > 1:
+            comd = args[1]
         if cls not in self.__classes:
             print("** class doesn't exists **")
-        elif comd == "all":
-            for value in objects_dict.values():
-                val = value.to_dict()
-                if cls == val["__class__"]:
-                    all.append(value)
-            if len(all) >= 1:
-                print("[", end="")
-                for idx in range(len(all)):
-                    print(all[idx], end="")
-                    if idx != len(all) - 1:
-                        print(", ", end="")
-                    else:
-                        print("]")
+        elif comd == "all()":
+            self.do_all(cls)
         elif comd == "count()":
             count = 0
             for value in objects_dict.values():
@@ -229,15 +221,25 @@ class HBNBCommand(cmd.Cmd):
             comd = args[0]
             args = args[1].split(")")
             obj_id = args[0].strip('"').strip(")").strip('"')
-            search_key = "{}.{}".format(cls, obj_id)
-            if search_key not in objects_dict:
-                print("** no instance found **")
-            else:
-                if comd == "show":
-                    print(objects_dict[search_key])
-                elif comd == "destroy":
-                    del objects_dict[search_key]
-                    storage.save()
+            if comd == "show":
+                self.do_show("{} {}".format(cls, obj_id))
+            elif comd == "destroy":
+                self.do_destroy("{} {}".format(cls, obj_id))
+
+        elif comd.startswith("update"):
+            args = comd.split("(")
+            comd = args[0]
+            update_args = args[1].split(")")[0].split(", ")
+            obj_id = update_args[0].strip('"')
+            if len(update_args) == 2 and update_args[1].startswith("{"):
+                attr_dict = eval(update_args[1])
+                for key, value in attr_dict:
+                    self.do_update("{} {} {} {}".format(cls, obj_id, key, value))
+            else: 
+                attr_name = update_args[1].strip('"')
+                attr_value = update_args[2].strip('"')
+                self.do_update("{} {} {} {}".format(cls, obj_id, attr_name, attr_value))
+            
 
     def emptyline(self):
         """Does Nothing"""
