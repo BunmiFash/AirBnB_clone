@@ -208,15 +208,16 @@ class HBNBCommand(cmd.Cmd):
             for value in objects_dict.values():
                 val = value.to_dict()
                 if cls == val["__class__"]:
-                    all.append(value)
-            if len(all) >= 1:
+                    all.append(str(value))
+            """if len(all) >= 1:
                 print("[", end="")
                 for idx in range(len(all)):
                     print(all[idx], end="")
                     if idx != len(all) - 1:
                         print(", ", end="")
                     else:
-                        print("]")
+                        print("]")"""
+            print(all)
         elif comd == "count()":
             count = 0
             for value in objects_dict.values():
