@@ -72,6 +72,8 @@ class TestBaseModel(unittest.TestCase):
         self.assertIn('name', baseDict)
         self.assertIn('age', baseDict)
 
+        self.assertTrue(isinstance(baseDict, dict))
+
     def test_kwargs_attr(self):
         """
         Checks for the presence of attributes in an object
