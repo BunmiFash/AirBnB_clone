@@ -26,11 +26,23 @@ class HBNBCommand(cmd.Cmd):
                  'City': City, 'Amenity': Amenity,
                  'Review': Review}
 
+    def do_EOF(self, line):
+        """
+        Cleanly exits from the interpreter
+        """
+        return True
+
+    def help_EOF(line):
+        """
+        Help message for EOF()
+        """
+        print("Cleanly exits from the interpreter\n")
+
     def do_quit(self, line):
         """
         Quit command to exit the program
         """
-        return (True)
+        return True
 
     def help_quit(line):
         """
@@ -38,17 +50,9 @@ class HBNBCommand(cmd.Cmd):
         """
         print("Quit command to exit the program\n")
 
-    def do_EOF(self, line):
-        """
-        Cleanly exits from the interpreter
-        """
-        return (True)
-
-    def help_EOF(line):
-        """
-        Help message for EOF()
-        """
-        print("Cleanly exits from the interpreter\n")
+    def emptyline(self):
+        """Does Nothing"""
+        pass
 
     def do_create(self, line):
         """
@@ -154,8 +158,8 @@ class HBNBCommand(cmd.Cmd):
                 val_type = type(arguments[3])
                 attr_value = val_type(arguments[3])
                 obj_dict = objects_dict[search_key].__dict__
-                value = arguments[3].strip('"')
-                obj_dict[attr_name] = attr_value
+                value = arguments[3].strip('"').strip("'")
+                obj_dict[attr_name] = val_type(value)
                 storage.save()
 
     def help_update(line):
@@ -244,10 +248,6 @@ class HBNBCommand(cmd.Cmd):
                         cls, obj_id, attr_name, attr_value))
         except IndexError:
             print("Invalid!")
-
-    def emptyline(self):
-        """Does Nothing"""
-        pass
 
 
 if __name__ == "__main__":
