@@ -3,6 +3,7 @@
 Test Cases for Base Model
 """
 import unittest
+import pep8
 from io import StringIO
 from models.base_model import BaseModel
 from datetime import datetime
@@ -93,3 +94,10 @@ class TestBaseModel(unittest.TestCase):
         """
         self.assertTrue(type(self.newBase.created_at), datetime)
         self.assertTrue(type(self.newBase.updated_at), datetime)
+
+    def test_pep8_base_model(self):
+        """Test that we conform to PEP8."""
+        pep8style = pep8.StyleGuide(quiet=True)
+        result = pep8style.check_files(['models/base_model.py'])
+        self.assertEqual(result.total_errors, 0,
+                         "Found code style errors (and warnings).")

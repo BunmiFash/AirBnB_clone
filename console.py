@@ -36,7 +36,7 @@ class HBNBCommand(cmd.Cmd):
         """
         Help message for quit()
         """
-        print("Quit command to exit the program")
+        print("Quit command to exit the program\n")
 
     def do_EOF(self, line):
         """
@@ -48,7 +48,7 @@ class HBNBCommand(cmd.Cmd):
         """
         Help message for EOF()
         """
-        print("Cleanly exits from the interpreter")
+        print("Cleanly exits from the interpreter\n")
 
     def do_create(self, line):
         """
@@ -71,7 +71,7 @@ class HBNBCommand(cmd.Cmd):
         """
         print("Usage: create <class_name>")
         print("creates an object specified by class_name"
-              " and save it to a json file")
+              " and save it to a json file\n")
 
     def do_show(self, line):
         """
@@ -98,7 +98,7 @@ class HBNBCommand(cmd.Cmd):
         Prints the help message for the "show" command
         """
         print("Usage: show <class_name> <id>")
-        print("prints the string representation of the specified instance")
+        print("prints the string representation of the specified instance\n")
 
     def do_destroy(self, line):
         """
@@ -126,7 +126,7 @@ class HBNBCommand(cmd.Cmd):
         prints the help method for the "destroy" command
         """
         print("Usage: destroy <class_name> <id>")
-        print("Removes the specified class")
+        print("Removes the specified class\n")
 
     def do_update(self, line):
         """
@@ -165,7 +165,7 @@ class HBNBCommand(cmd.Cmd):
         print("Usage: update <class name> <id> <attribute name>"
               " \"<attribute value>\"")
         print("Updates an instance of class_name and id by adding"
-              " or updating attribute")
+              " or updating attribute\n")
 
     def do_all(self, line):
         arguments = line.split() if line else []
@@ -192,7 +192,7 @@ class HBNBCommand(cmd.Cmd):
         print("Usage <all> <class_name>")
         print("prints all the instances of class_names"
               " or all the instances stored if no argument"
-              " is provided")
+              " is provided\n")
 
     def default(self, line):
         """
@@ -202,44 +202,48 @@ class HBNBCommand(cmd.Cmd):
         all = []
         args = line.split(".") if line else []
         objects_dict = storage.all()
-        cls = args[0]
-        if len(args) > 1:
-            comd = args[1]
-        if cls not in self.__classes:
-            print("** class doesn't exists **")
-        elif comd == "all()":
-            self.do_all(cls)
-        elif comd == "count()":
-            count = 0
-            for value in objects_dict.values():
-                val = value.to_dict()
-                if cls == val["__class__"]:
-                    count += 1
-            print(count)
-        elif comd.startswith("show") or comd.startswith("destroy"):
-            args = comd.split("(")
-            comd = args[0]
-            args = args[1].split(")")
-            obj_id = args[0].strip('"').strip(")").strip('"')
-            if comd == "show":
-                self.do_show("{} {}".format(cls, obj_id))
-            elif comd == "destroy":
-                self.do_destroy("{} {}".format(cls, obj_id))
+        try:
+            cls = args[0]
+            if len(args) > 1:
+                comd = args[1]
+            if cls not in self.__classes:
+                print("** class doesn't exists **")
+            elif comd == "all()":
+                self.do_all(cls)
+            elif comd == "count()":
+                count = 0
+                for value in objects_dict.values():
+                    val = value.to_dict()
+                    if cls == val["__class__"]:
+                        count += 1
+                print(count)
+            elif comd.startswith("show") or comd.startswith("destroy"):
+                args = comd.split("(")
+                comd = args[0]
+                args = args[1].split(")")
+                obj_id = args[0].strip('"').strip(")").strip('"')
+                if comd == "show":
+                    self.do_show("{} {}".format(cls, obj_id))
+                elif comd == "destroy":
+                    self.do_destroy("{} {}".format(cls, obj_id))
 
-        elif comd.startswith("update"):
-            args = comd.split("(")
-            comd = args[0]
-            update_args = args[1].split(")")[0].split(", ")
-            obj_id = update_args[0].strip('"')
-            if len(update_args) == 2 and update_args[1].startswith("{"):
-                attr_dict = eval(update_args[1])
-                for key, value in attr_dict:
-                    self.do_update("{} {} {} {}".format(cls, obj_id, key, value))
-            else: 
-                attr_name = update_args[1].strip('"')
-                attr_value = update_args[2].strip('"')
-                self.do_update("{} {} {} {}".format(cls, obj_id, attr_name, attr_value))
-            
+            elif comd.startswith("update"):
+                args = comd.split("(")
+                comd = args[0]
+                update_args = args[1].split(")")[0].split(", ")
+                obj_id = update_args[0].strip('"')
+                if len(update_args) == 2 and update_args[1].startswith("{"):
+                    attr_dict = eval(update_args[1])
+                    for key, value in attr_dict:
+                        self.do_update("{} {} {} {}".format(
+                            cls, obj_id, key, value))
+                else:
+                    attr_name = update_args[1].strip('"')
+                    attr_value = update_args[2].strip('"')
+                    self.do_update("{} {} {} {}".format(
+                        cls, obj_id, attr_name, attr_value))
+        except IndexError:
+            print("Invalid!")
 
     def emptyline(self):
         """Does Nothing"""

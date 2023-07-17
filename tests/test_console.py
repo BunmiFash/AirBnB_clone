@@ -7,6 +7,7 @@ Unittest cases for all methods in console.py
 import unittest
 from console import HBNBCommand
 from io import StringIO
+import pep8
 from unittest.mock import patch
 from models import storage
 from models.base_model import BaseModel
@@ -29,7 +30,7 @@ class TestConsole(unittest.TestCase):
         """
         Quit documentation
         """
-        output = "Quit command to exit the program\n"
+        output = "Quit command to exit the program\n\n"
         with patch("sys.stdout", new=StringIO()) as f:
             HBNBCommand().onecmd("help quit")
             self.assertEqual(f.getvalue(), output)
@@ -38,7 +39,7 @@ class TestConsole(unittest.TestCase):
         """
         EOF documentation
         """
-        output = "Cleanly exits from the interpreter\n"
+        output = "Cleanly exits from the interpreter\n\n"
         with patch("sys.stdout", new=StringIO()) as f:
             HBNBCommand().onecmd("help EOF")
             self.assertEqual(f.getvalue(), output)
@@ -49,7 +50,7 @@ class TestConsole(unittest.TestCase):
         """
         out = "Usage: create <class_name>\n"
         out2 = "creates an object specified by class_name\
- and save it to a json file\n"
+ and save it to a json file\n\n"
         with patch("sys.stdout", new=StringIO()) as f:
             HBNBCommand().onecmd("help create")
             self.assertEqual(f.getvalue(), out + out2)
@@ -60,7 +61,7 @@ class TestConsole(unittest.TestCase):
         """
         out = "Usage: show <class_name> <id>\n"
         out2 = "prints the string representation of\
- the specified instance\n"
+ the specified instance\n\n"
         with patch("sys.stdout", new=StringIO()) as f:
             HBNBCommand().onecmd("help show")
             self.assertEqual(f.getvalue(), out + out2)
@@ -70,7 +71,7 @@ class TestConsole(unittest.TestCase):
         destroy command doc
         """
         out = "Usage: destroy <class_name> <id>\n"
-        out2 = "Removes the specified class\n"
+        out2 = "Removes the specified class\n\n"
         with patch("sys.stdout", new=StringIO()) as f:
             HBNBCommand().onecmd("help destroy")
             self.assertEqual(f.getvalue(), out + out2)
@@ -82,7 +83,7 @@ class TestConsole(unittest.TestCase):
         out = 'Usage: update <class name> <id>\
  <attribute name> "<attribute value>"\n'
         out2 = "Updates an instance of class_name and id by\
- adding or updating attribute\n"
+ adding or updating attribute\n\n"
         with patch("sys.stdout", new=StringIO()) as f:
             HBNBCommand().onecmd("help update")
             self.assertEqual(f.getvalue(), out + out2)
@@ -93,7 +94,7 @@ class TestConsole(unittest.TestCase):
         """
         out = 'Usage <all> <class_name>\n'
         out2 = "prints all the instances of class_names\
- or all the instances stored if no argument is provided\n"
+ or all the instances stored if no argument is provided\n\n"
         with patch("sys.stdout", new=StringIO()) as f:
             HBNBCommand().onecmd("help all")
             self.assertEqual(f.getvalue(), out + out2)
@@ -259,3 +260,10 @@ class TestConsole(unittest.TestCase):
         with patch("sys.stdout", new=StringIO()) as f:
             HBNBCommand().onecmd("all user")
             self.assertEqual(f.getvalue(), out)
+
+    def test_pep8_console(self):
+        """Test that we conform to PEP8."""
+        pep8style = pep8.StyleGuide(quiet=True)
+        result = pep8style.check_files(['console.py'])
+        self.assertEqual(result.total_errors, 0,
+                         "Found code style errors (and warnings).")
