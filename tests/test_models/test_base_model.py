@@ -7,6 +7,7 @@ import pep8
 from io import StringIO
 from models.base_model import BaseModel
 from datetime import datetime
+import models
 
 
 class TestBaseModel(unittest.TestCase):
@@ -56,8 +57,12 @@ class TestBaseModel(unittest.TestCase):
         Test the time difference between created_at and
         updated_at
         """
+        all_objects = models.storage.all()
         self.base.save()
+        key = "BaseModel" + '.' + self.base.id
         self.assertGreater(self.base.updated_at, self.base.created_at)
+        self.assertNotEqual(self.base.updated_at, self.base.created_at)
+        self.assertIn(key, all_objects)
 
     def test_to_dict(self):
         """

@@ -238,7 +238,7 @@ class TestConsole(unittest.TestCase):
 
     def test_all(self):
         """
-        Prints all objects orobjects of a specified class
+        Prints all objects of a specified class
         """
         with patch("sys.stdout", new=StringIO()) as f:
             HBNBCommand().onecmd("all")
@@ -260,6 +260,274 @@ class TestConsole(unittest.TestCase):
         with patch("sys.stdout", new=StringIO()) as f:
             HBNBCommand().onecmd("all user")
             self.assertEqual(f.getvalue(), out)
+
+    def test_update(self):
+        """
+        Updates an object
+        """
+        all_objects = storage.all()
+        key = "City.5739eadf-f300-4675-b13d-97c5fb3ebb63"
+        val = all_objects[key].__dict__
+        with patch("sys.stdout", new=StringIO()) as f:
+            HBNBCommand().onecmd("update City\
+     5739eadf-f300-4675-b13d-97c5fb3ebb63 state 'Lagos'")
+            self.assertIn('state', val)
+
+    def test_default(self):
+        """
+        Tests for all commands
+        """
+        """
+        all
+        """
+        with patch("sys.stdout", new=StringIO()) as f:
+            HBNBCommand().onecmd("BaseModel.all()")
+            self.assertEqual(type(f.getvalue()), str)
+
+        with patch("sys.stdout", new=StringIO()) as f:
+            HBNBCommand().onecmd("Place.all()")
+            self.assertEqual(type(f.getvalue()), str)
+
+        with patch("sys.stdout", new=StringIO()) as f:
+            HBNBCommand().onecmd("Amenity.all()")
+            self.assertEqual(type(f.getvalue()), str)
+
+        with patch("sys.stdout", new=StringIO()) as f:
+            HBNBCommand().onecmd("User.all()")
+            self.assertEqual(type(f.getvalue()), str)
+
+        with patch("sys.stdout", new=StringIO()) as f:
+            HBNBCommand().onecmd("City.all()")
+            self.assertEqual(type(f.getvalue()), str)
+
+        with patch("sys.stdout", new=StringIO()) as f:
+            HBNBCommand().onecmd("State.all()")
+            self.assertEqual(type(f.getvalue()), str)
+
+        with patch("sys.stdout", new=StringIO()) as f:
+            HBNBCommand().onecmd("Review.all()")
+            self.assertEqual(type(f.getvalue()), str)
+
+        out = "** class doesn't exists **\n"
+        with patch("sys.stdout", new=StringIO()) as f:
+            HBNBCommand().onecmd("review.all()")
+            self.assertEqual(f.getvalue(), out)
+
+        """
+        Test for count()
+        """
+        with patch("sys.stdout", new=StringIO()) as f:
+            HBNBCommand().onecmd("BaseModel.count()")
+            self.assertEqual(type(f.getvalue()), str)
+
+        with patch("sys.stdout", new=StringIO()) as f:
+            HBNBCommand().onecmd("State.count()")
+            self.assertEqual(type(f.getvalue()), str)
+
+        with patch("sys.stdout", new=StringIO()) as f:
+            HBNBCommand().onecmd("User.count()")
+            self.assertEqual(type(f.getvalue()), str)
+
+        with patch("sys.stdout", new=StringIO()) as f:
+            HBNBCommand().onecmd("City.count()")
+            self.assertEqual(type(f.getvalue()), str)
+
+        with patch("sys.stdout", new=StringIO()) as f:
+            HBNBCommand().onecmd("Place.count()")
+            self.assertEqual(type(f.getvalue()), str)
+
+        with patch("sys.stdout", new=StringIO()) as f:
+            HBNBCommand().onecmd("Amenity.count()")
+            self.assertEqual(type(f.getvalue()), str)
+
+        with patch("sys.stdout", new=StringIO()) as f:
+            HBNBCommand().onecmd("Review.count()")
+            self.assertEqual(type(f.getvalue()), str)
+
+        out = "** class doesn't exists **\n"
+        with patch("sys.stdout", new=StringIO()) as f:
+            HBNBCommand().onecmd("review.count()")
+            self.assertEqual(f.getvalue(), out)
+
+        """
+        show()
+        """
+        with patch("sys.stdout", new=StringIO()) as f:
+            HBNBCommand().onecmd(
+                "BaseModel.show('bb230126-8e70-47e6-8be8-16bfdb3ecd66')")
+            self.assertEqual(type(f.getvalue()), str)
+
+        with patch("sys.stdout", new=StringIO()) as f:
+            HBNBCommand().onecmd(
+                "User.show('2cf605e6-8082-41ff-b2cf-29632e0744cc')")
+            self.assertEqual(type(f.getvalue()), str)
+
+        with patch("sys.stdout", new=StringIO()) as f:
+            HBNBCommand().onecmd(
+                "State.show('1fc19385-b67d-430a-a696-a32fecdc5c51')")
+            self.assertEqual(type(f.getvalue()), str)
+
+        with patch("sys.stdout", new=StringIO()) as f:
+            HBNBCommand().onecmd(
+                "City.show('c60ee7b9-4c30-4aeb-afcf-96bda28e9d45')")
+            self.assertEqual(type(f.getvalue()), str)
+
+        with patch("sys.stdout", new=StringIO()) as f:
+            HBNBCommand().onecmd(
+                "Place.show('61881db5-c387-405b-940e-c5b41158eaa1')")
+            self.assertEqual(type(f.getvalue()), str)
+
+        with patch("sys.stdout", new=StringIO()) as f:
+            HBNBCommand().onecmd(
+                "Amenity.show('91371784-d2ed-44a1-aea1-743ab44b9c9f')")
+            self.assertEqual(type(f.getvalue()), str)
+
+        with patch("sys.stdout", new=StringIO()) as f:
+            HBNBCommand().onecmd(
+                "Review.show('28acf8ce-0142-4a8b-a7f1-64d84ba73ed2')")
+            self.assertEqual(type(f.getvalue()), str)
+
+        out1 = "** class doesn't exists **\n"
+        out2 = "** instance id missing **\n"
+        out3 = "** no instance found **\n"
+
+        with patch("sys.stdout", new=StringIO()) as f:
+            HBNBCommand().onecmd(
+                "review.show('28acf8ce-0142-4a8b-a7f1-64d84ba73ed2')")
+            self.assertEqual(f.getvalue(), out1)
+
+        with patch("sys.stdout", new=StringIO()) as f:
+            HBNBCommand().onecmd(
+                "Review.show()")
+            self.assertEqual(f.getvalue(), out2)
+
+        with patch("sys.stdout", new=StringIO()) as f:
+            HBNBCommand().onecmd(
+                "Review.show('1234')")
+            self.assertEqual(f.getvalue(), out3)
+
+        """
+        destroy()
+        """
+        out1 = "** class doesn't exists **\n"
+        out2 = "** instance id missing **\n"
+        out3 = "** no instance found **\n"
+        with patch("sys.stdout", new=StringIO()) as f:
+            HBNBCommand().onecmd(
+                "BaseModel.destroy('bb230126-8e70-47e6-8be8-16bfdb3ecd66')"
+                )
+            self.assertEqual(f.getvalue(), out3)
+
+        with patch("sys.stdout", new=StringIO()) as f:
+            HBNBCommand().onecmd(
+                "User.destroy('2cf605e6-8082-41ff-b2cf-29632e0744cc')"
+                )
+            self.assertEqual(f.getvalue(), out3)
+
+        with patch("sys.stdout", new=StringIO()) as f:
+            HBNBCommand().onecmd(
+                "State.destroy('1fc19385-b67d-430a-a696-a32fecdc5c51')"
+                )
+            self.assertEqual(f.getvalue(), out3)
+
+        with patch("sys.stdout", new=StringIO()) as f:
+            HBNBCommand().onecmd(
+                "City.destroy('c60ee7b9-4c30-4aeb-afcf-96bda28e9d45')"
+                )
+            self.assertEqual(f.getvalue(), out3)
+
+        with patch("sys.stdout", new=StringIO()) as f:
+            HBNBCommand().onecmd(
+                "Place.destroy('61881db5-c387-405b-940e-c5b41158eaa1')"
+                )
+            self.assertEqual(f.getvalue(), out3)
+
+        with patch("sys.stdout", new=StringIO()) as f:
+            HBNBCommand().onecmd(
+                "Amenity.destroy('91371784-d2ed-44a1-aea1-743ab44b9c9f')"
+                )
+            self.assertEqual(f.getvalue(), out3)
+
+        with patch("sys.stdout", new=StringIO()) as f:
+            HBNBCommand().onecmd(
+                "Review.destroy('28acf8ce-0142-4a8b-a7f1-64d84ba73ed2')")
+            self.assertEqual(f.getvalue(), out3)
+
+        with patch("sys.stdout", new=StringIO()) as f:
+            HBNBCommand().onecmd(
+                "review.destroy('28acf8ce-0142-4a8b-a7f1-64d84ba73ed2')")
+            self.assertEqual(f.getvalue(), out1)
+
+        with patch("sys.stdout", new=StringIO()) as f:
+            HBNBCommand().onecmd(
+                "Review.destroy()")
+            self.assertEqual(f.getvalue(), out2)
+
+        with patch("sys.stdout", new=StringIO()) as f:
+            HBNBCommand().onecmd(
+                "Review.destroy('1234')")
+            self.assertEqual(f.getvalue(), out3)
+
+        """
+        update()
+        """
+        all_objects = storage.all()
+
+        key = "Review.28acf8ce-0142-4a8b-a7f1-64d84ba73ed2"
+        val = all_objects[key].__dict__
+        with patch("sys.stdout", new=StringIO()) as f:
+            HBNBCommand().onecmd(
+                'Review.update("28acf8ce-0142-4a8b-a7f1-64d84ba73ed2",\
+     "stars", "five")')
+            self.assertIn('stars', val)
+
+        key = "Place.61881db5-c387-405b-940e-c5b41158eaa1"
+        val = all_objects[key].__dict__
+        with patch("sys.stdout", new=StringIO()) as f:
+            HBNBCommand().onecmd(
+                'Place.update("61881db5-c387-405b-940e-c5b41158eaa1",\
+     "loc", "kwara")')
+            self.assertIn('loc', val)
+
+        key = "City.5739eadf-f300-4675-b13d-97c5fb3ebb63"
+        val = all_objects[key].__dict__
+        with patch("sys.stdout", new=StringIO()) as f:
+            HBNBCommand().onecmd(
+                'City.update("5739eadf-f300-4675-b13d-97c5fb3ebb63",\
+     "area", "LCDA")')
+            self.assertIn('area', val)
+
+        key = "State.1fc19385-b67d-430a-a696-a32fecdc5c51"
+        val = all_objects[key].__dict__
+        with patch("sys.stdout", new=StringIO()) as f:
+            HBNBCommand().onecmd(
+                'State.update("1fc19385-b67d-430a-a696-a32fecdc5c51",\
+     "state", "Anambra")')
+            self.assertIn("state", val)
+
+        key = "Amenity.1da41a05-066f-48a8-8919-386d58dd87cc"
+        val = all_objects[key].__dict__
+        with patch("sys.stdout", new=StringIO()) as f:
+            HBNBCommand().onecmd(
+                'Amenity.update("1da41a05-066f-48a8-8919-386d58dd87cc",\
+     "stars", "two")')
+            self.assertIn('stars', val)
+
+        key = "BaseModel.f745a0ff-4224-43e0-abbb-e58deded2f1a"
+        val = all_objects[key].__dict__
+        with patch("sys.stdout", new=StringIO()) as f:
+            HBNBCommand().onecmd(
+                'BaseModel.update("f745a0ff-4224-43e0-abbb-e58deded2f1a",\
+     "level", "two")')
+            self.assertIn('level', val)
+
+        key = "User.64cb6f28-240a-4b86-96e4-d0231057bcbe"
+        val = all_objects[key].__dict__
+        with patch("sys.stdout", new=StringIO()) as f:
+            HBNBCommand().onecmd(
+                'User.update("64cb6f28-240a-4b86-96e4-d0231057bcbe",\
+     "last_name", "Eva")')
+            self.assertIn('last_name', val)
 
     def test_pep8_console(self):
         """Test that we conform to PEP8."""
