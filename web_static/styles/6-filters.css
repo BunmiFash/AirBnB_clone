@@ -1,5 +1,4 @@
 /*FILTERS STYLING*/
-
 div.container {
     max-width: 1000px;
     margin: 30px auto;
@@ -51,7 +50,6 @@ div.container .filters {
     padding: 0 2.2em;
     padding-right: 0;
 }
-
 /*FILTER DROPDOWN STYLES*/
 li {
     list-style-type: none;

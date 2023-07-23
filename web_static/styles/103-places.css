@@ -83,6 +83,7 @@
 .reviews, .description {
     padding-bottom: 1em;
 }
+
 /* AMENITIES */
 .amenities h2, .reviews h2 {
     font-size: 16px;
@@ -112,6 +113,7 @@ ul .pet {
     background-size: contain;
     padding-left: 2em;
 }
+
 /* REVIEWS*/
 .reviews {
     margin-top: 40px;
